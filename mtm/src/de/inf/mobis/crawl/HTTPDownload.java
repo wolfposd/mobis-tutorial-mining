@@ -25,9 +25,9 @@ public class HTTPDownload
             while ((line = rd.readLine()) != null)
             {
                 buffer.append(line);
+                buffer.append("\n");
             }
             rd.close();
-
 
             return buffer.toString();
         }
