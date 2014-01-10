@@ -11,27 +11,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * 
+ * @author w.posdorfer
+ * 
+ */
 public class Util
 {
-
-    /**
-     * @deprecated
-     */
-    public static void downloadURLToFile(String url, String file)
-    {
-        try
-        {
-            Document d = Jsoup.connect(url).get();
-            FileWriter writer = new FileWriter(new File(file), false);
-            writer.write(d.toString());
-            writer.close();
-        }
-        catch (IOException io)
-        {
-            io.printStackTrace();
-        }
-
-    }
 
     public static void saveDocumentToFile(Document d, String f)
     {

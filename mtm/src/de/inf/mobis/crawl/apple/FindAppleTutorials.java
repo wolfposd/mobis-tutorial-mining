@@ -2,10 +2,10 @@ package de.inf.mobis.crawl.apple;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,6 +18,10 @@ import org.jsoup.select.Elements;
 
 import de.inf.mobis.crawl.util.Util;
 
+/**
+ * 
+ * @author w.posdorfer
+ */
 public class FindAppleTutorials
 {
 
@@ -78,7 +82,7 @@ public class FindAppleTutorials
         int i = 1;
         while ((line = rd.readLine()) != null)
         {
-            System.out.println("Download " + i);
+            System.out.println("Download " + i + " / 1783");
             downloadContentsFromAppleTutorial(line);
             i++;
         }
@@ -108,12 +112,20 @@ public class FindAppleTutorials
             case OLDSTYLE_LINKCOLLECTION:
                 downloadOldStyleLinkCollection(doc, folderpath);
                 break;
+            default:
+                downloadPageSimple(doc, folderpath);
             }
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    private static void downloadPageSimple(Document doc, String folderpath)
+    {
+        Util.saveDocumentToFile(doc, folderpath + "part_0.html");
+        Util.saveImageFromDocumentToFolder(doc, folderpath);
     }
 
     public static int findStyle(Document doc)
@@ -229,4 +241,38 @@ public class FindAppleTutorials
         }
     }
 
+    public static void removeRevisionHistory()
+    {
+        for (File tutFolder : new File(DOWNLOADPATH).listFiles())
+        {
+            if (tutFolder.isDirectory())
+            {
+
+                File[] files = tutFolder.listFiles(new FileFilter()
+                {
+                    public boolean accept(File pathname)
+                    {
+                        return pathname.getName().contains(".html");
+                    }
+                });
+
+                if (files.length > 1)
+                {
+                    try
+                    {
+                        Document parse = Jsoup.parse(files[files.length - 1], "UTF-8");
+
+                        if (parse.html().contains("<h1 id=\"pageTitle\">Document Revision History</h1>"))
+                        {
+                            files[files.length - 1].delete();
+                        }
+                    }
+                    catch (IOException e)
+                    {
+                    }
+                }
+
+            }
+        }
+    }
 }
