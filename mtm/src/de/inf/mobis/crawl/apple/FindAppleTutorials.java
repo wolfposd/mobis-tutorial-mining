@@ -140,7 +140,7 @@ public class FindAppleTutorials
         {
             return OLDSTYLE_NEXTBUTTON;
         }
-        else if (search.contains("Resources/866/CSS/screen.css"))
+        else if (search.contains("collectionColumn"))
         {
             return OLDSTYLE_LINKCOLLECTION;
         }
@@ -273,6 +273,34 @@ public class FindAppleTutorials
                 }
 
             }
+        }
+    }
+
+    public static void removeEmptyIMGFolder()
+    {
+        for (File tutfolder : new File(DOWNLOADPATH).listFiles())
+        {
+
+            File[] folder = tutfolder.listFiles(new FileFilter()
+            {
+                public boolean accept(File pathname)
+                {
+                    return pathname.isDirectory();
+                }
+            });
+            if (folder != null)
+                for (File imgfolder : folder)
+                {
+                    if (imgfolder.getName().contains("img"))
+                    {
+                        if (imgfolder.listFiles().length == 0)
+                        {
+                            imgfolder.delete();
+                            System.out.println(imgfolder);
+                        }
+                    }
+                }
+
         }
     }
 }

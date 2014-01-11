@@ -38,8 +38,12 @@ public class Util
         Elements images = doc.select("img");
 
         folder = folder + "/img/";
-        new File(folder).mkdirs();
 
+        if (images.size() > 0)
+        {
+            new File(folder).mkdirs();
+        }
+        
         for (Element e : images)
         {
             String imageurl = e.attr("abs:src");

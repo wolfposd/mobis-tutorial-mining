@@ -18,8 +18,8 @@ public class Startup
 
     public static void downloadAppleTutorials() throws IOException
     {
-         FindAppleTutorials.parseTutorialLinksFromSavedWebsite();
-         FindAppleTutorials.parseLinksFromFile();
-       // FindAppleTutorials.removeRevisionHistory();
+        FindAppleTutorials.parseTutorialLinksFromSavedWebsite();
+        FindAppleTutorials.parseLinksFromFile();
+        FindAppleTutorials.removeRevisionHistory();
     }
 }
