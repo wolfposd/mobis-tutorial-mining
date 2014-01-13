@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -19,12 +18,12 @@ import org.jsoup.select.Elements;
 public class Util
 {
 
-    public static void saveDocumentToFile(Document d, String f)
+    public static void saveDocumentToFile(Element e, String f)
     {
         try
         {
             FileWriter writer = new FileWriter(new File(f), false);
-            writer.write(d.html());
+            writer.write(e.html());
             writer.close();
         }
         catch (IOException io)
@@ -33,7 +32,7 @@ public class Util
         }
     }
 
-    public static void saveImageFromDocumentToFolder(Document doc, String folder)
+    public static void saveImageFromDocumentToFolder(Element doc, String folder)
     {
         Elements images = doc.select("img");
 
@@ -43,7 +42,7 @@ public class Util
         {
             new File(folder).mkdirs();
         }
-        
+
         for (Element e : images)
         {
             String imageurl = e.attr("abs:src");

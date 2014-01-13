@@ -124,7 +124,7 @@ public class FindAppleTutorials
 
     private static void downloadPageSimple(Document doc, String folderpath)
     {
-        Util.saveDocumentToFile(doc, folderpath + "part_0.html");
+        tryDownloadMainParts(doc, folderpath + getName(doc), "article");
         Util.saveImageFromDocumentToFolder(doc, folderpath);
     }
 
@@ -166,24 +166,34 @@ public class FindAppleTutorials
                 if (elemt.attributes() != null)
                 {
                     String link = elemt.attr("abs:href");
-                    downloadPageAndImages(link, folderpath, "part_" + i + ".html");
+                    String name = link.substring(link.lastIndexOf("/"));
+                    downloadPageAndImages(link, folderpath, name);
                 }
             }
         }
 
     }
 
+    public static String getName(Document d)
+    {
+        String name = d.location();
+        if (!name.endsWith(".html"))
+            name += ".html";
+        return name.substring(name.lastIndexOf("/"));
+    }
+
     public static void downloadOldStyleNextButton(Document document, String folderpath)
     {
-        Util.saveDocumentToFile(document, folderpath + "part_" + 0 + ".html");
+        String name = getName(document);
+        tryDownloadMainParts(document, folderpath + name, "article");
 
-        for (int i = 1; hasNextButton(document); i++)
+        while (hasNextButton(document))
         {
             Elements e = document.getElementsByClass("nextLink");
-
             if (e.size() > 0)
             {
                 String newlink = e.get(0).attr("abs:href");
+                name = newlink.substring(newlink.lastIndexOf("/"));
                 try
                 {
                     document = Jsoup.connect(newlink).get();
@@ -193,7 +203,7 @@ public class FindAppleTutorials
                 }
             }
 
-            Util.saveDocumentToFile(document, folderpath + "part_" + i + ".html");
+            tryDownloadMainParts(document, folderpath + name, "article");
             Util.saveImageFromDocumentToFolder(document, folderpath);
         }
     }
@@ -224,7 +234,9 @@ public class FindAppleTutorials
 
         for (int i = 0; i < links.size(); i++)
         {
-            downloadPageAndImages(links.get(i), folderpath, "part_" + i + ".html");
+            String name = links.get(i);
+            name = name.substring(name.lastIndexOf("/"));
+            downloadPageAndImages(links.get(i), folderpath, name);
         }
     }
 
@@ -233,7 +245,7 @@ public class FindAppleTutorials
         try
         {
             Document doc = Jsoup.connect(link).get();
-            Util.saveDocumentToFile(doc, folderpath + filename);
+            tryDownloadMainParts(doc, folderpath + filename, "article");
             Util.saveImageFromDocumentToFolder(doc, folderpath);
         }
         catch (IOException e1)
@@ -273,6 +285,20 @@ public class FindAppleTutorials
                 }
 
             }
+        }
+    }
+
+    public static void tryDownloadMainParts(Document document, String path, String query)
+    {
+        Elements select = document.select(query);
+        if (select.size() == 1)
+        {
+            Util.saveDocumentToFile(select.get(0), path);
+        }
+        else
+        {
+            System.out.println("Articles: " + select.size());
+            Util.saveDocumentToFile(document, path);
         }
     }
 
