@@ -167,6 +167,8 @@ public class FindAppleTutorials
                 {
                     String link = elemt.attr("abs:href");
                     String name = link.substring(link.lastIndexOf("/"));
+                    if (!name.endsWith(".html"))
+                        name += ".html";
                     downloadPageAndImages(link, folderpath, name);
                 }
             }
@@ -193,10 +195,10 @@ public class FindAppleTutorials
             if (e.size() > 0)
             {
                 String newlink = e.get(0).attr("abs:href");
-                name = newlink.substring(newlink.lastIndexOf("/"));
                 try
                 {
                     document = Jsoup.connect(newlink).get();
+                    name = getName(document);
                 }
                 catch (IOException e1)
                 {
@@ -236,6 +238,8 @@ public class FindAppleTutorials
         {
             String name = links.get(i);
             name = name.substring(name.lastIndexOf("/"));
+            if (!name.endsWith(".html"))
+                name += ".html";
             downloadPageAndImages(links.get(i), folderpath, name);
         }
     }
