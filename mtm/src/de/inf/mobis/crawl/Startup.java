@@ -2,8 +2,8 @@ package de.inf.mobis.crawl;
 
 import java.io.IOException;
 
-import de.inf.mobis.crawl.apple.FindAppleTutorials;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
+import de.inf.mobis.crawl.websites.FindAppleTutorials;
 import de.inf.mobis.crawl.websites.FindIosDevGTutorial;
 
 /**

@@ -1,4 +1,4 @@
-package de.inf.mobis.crawl.apple;
+package de.inf.mobis.crawl.websites;
 
 import java.io.BufferedReader;
 import java.io.File;
