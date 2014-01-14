@@ -16,10 +16,9 @@ public class Startup
 {
     public static void main(String[] args) throws IOException
     {
-        // downloadAppleTutorials();
-        // downloadIOSDevGermanyTutorials();
-        // downloadAndroidDeveloperTutorials();
-
+        downloadAppleTutorials();
+        downloadIOSDevGermanyTutorials();
+        downloadAndroidDeveloperTutorials();
         downloadEclipseTutorials();
     }
 
