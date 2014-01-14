@@ -124,7 +124,7 @@ public class FindAppleTutorials
 
     private static void downloadPageSimple(Document doc, String folderpath)
     {
-        tryDownloadMainParts(doc, folderpath + getName(doc), "article");
+        tryDownloadMainParts(doc, folderpath + Util.getName(doc), "article");
         Util.saveImageFromDocumentToFolder(doc, folderpath);
     }
 
@@ -176,17 +176,9 @@ public class FindAppleTutorials
 
     }
 
-    public static String getName(Document d)
-    {
-        String name = d.location();
-        if (!name.endsWith(".html"))
-            name += ".html";
-        return name.substring(name.lastIndexOf("/"));
-    }
-
     public static void downloadOldStyleNextButton(Document document, String folderpath)
     {
-        String name = getName(document);
+        String name = Util.getName(document);
         tryDownloadMainParts(document, folderpath + name, "article");
 
         while (hasNextButton(document))
@@ -198,7 +190,7 @@ public class FindAppleTutorials
                 try
                 {
                     document = Jsoup.connect(newlink).get();
-                    name = getName(document);
+                    name = Util.getName(document);
                 }
                 catch (IOException e1)
                 {

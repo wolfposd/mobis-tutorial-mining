@@ -4,9 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.jsoup.Connection.Response;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -17,6 +22,14 @@ import org.jsoup.select.Elements;
  */
 public class Util
 {
+
+    public static String getName(Document d)
+    {
+        String name = d.location();
+        if (!name.endsWith(".html"))
+            name += ".html";
+        return name.substring(name.lastIndexOf("/") + 1);
+    }
 
     public static void saveDocumentToFile(Element e, String f)
     {
@@ -34,6 +47,12 @@ public class Util
 
     public static void saveImageFromDocumentToFolder(Element doc, String folder)
     {
+        List<String> empty = Collections.emptyList();
+        saveImageFromDocumentToFolder(doc, folder, empty);
+    }
+
+    public static void saveImageFromDocumentToFolder(Element doc, String folder, Collection<String> ignoreByName)
+    {
         Elements images = doc.select("img");
 
         folder = folder + "/img/";
@@ -47,19 +66,24 @@ public class Util
         {
             String imageurl = e.attr("abs:src");
 
-            String name = imageurl.substring(imageurl.lastIndexOf("/"));
-
-            try
+            String name = imageurl.substring(imageurl.lastIndexOf("/") + 1);
+            if (!ignoreByName.contains(name))
             {
-                Response resultImageResponse = Jsoup.connect(imageurl).ignoreContentType(true).execute();
-                FileOutputStream out = new FileOutputStream(new File(folder + name));
-                out.write(resultImageResponse.bodyAsBytes());
-                out.close();
+                try
+                {
+                    Response resultImageResponse = Jsoup.connect(imageurl).ignoreContentType(true).execute();
+                    FileOutputStream out = new FileOutputStream(new File(folder + name));
+                    out.write(resultImageResponse.bodyAsBytes());
+                    out.close();
+                }
+                catch (HttpStatusException e1)
+                {
+                    System.err.println("Error downloading " + imageurl + " CODE=" + e1.getStatusCode());
+                }
+                catch (IOException e1)
+                {
+                }
             }
-            catch (IOException e1)
-            {
-            }
-
         }
     }
 }

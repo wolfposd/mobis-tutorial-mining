@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
 import de.inf.mobis.crawl.websites.FindAppleTutorials;
+import de.inf.mobis.crawl.websites.FindEclipseTutorials;
 import de.inf.mobis.crawl.websites.FindIosDevGTutorial;
 
 /**
@@ -15,9 +16,11 @@ public class Startup
 {
     public static void main(String[] args) throws IOException
     {
-         downloadAppleTutorials();
+        // downloadAppleTutorials();
         // downloadIOSDevGermanyTutorials();
-        //downloadAndroidDeveloperTutorials();
+        // downloadAndroidDeveloperTutorials();
+
+        downloadEclipseTutorials();
     }
 
     public static void downloadAppleTutorials() throws IOException
@@ -35,5 +38,11 @@ public class Startup
     public static void downloadAndroidDeveloperTutorials() throws IOException
     {
         FindAndroidTutorials.parseLinksFromWebsite();
+    }
+
+    public static void downloadEclipseTutorials() throws IOException
+    {
+        FindEclipseTutorials.parseLinksFromWebsite();
+        FindEclipseTutorials.removeEmptyIMGFolder();
     }
 }
