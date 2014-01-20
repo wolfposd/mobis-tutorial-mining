@@ -23,7 +23,7 @@ public class FindAndroidTutorials
     private static final String DESIGN_INDEX_HTML = "http://developer.android.com/design/index.html";
     private static final String DISTRIBUTE_INDEX_HTML = "http://developer.android.com/distribute/index.html";
 
-    public static final String FOLDERPATH = "./download/android/";
+    public static final String FOLDERPATH = "./download/android-official/";
 
     public static void parseLinksFromWebsite() throws IOException
     {

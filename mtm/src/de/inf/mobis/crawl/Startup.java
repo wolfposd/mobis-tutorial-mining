@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
 import de.inf.mobis.crawl.websites.FindAppleTutorials;
-import de.inf.mobis.crawl.websites.FindEclipseTutorials;
-import de.inf.mobis.crawl.websites.FindIosDevGTutorial;
+import de.inf.mobis.crawl.websites.FindRayTutorials;
+import de.inf.mobis.crawl.websites.FindVogellaTutorials;
 
 /**
  * 
@@ -16,10 +16,17 @@ public class Startup
 {
     public static void main(String[] args) throws IOException
     {
+        // official
         downloadAppleTutorials();
-        downloadIOSDevGermanyTutorials();
-        downloadAndroidDeveloperTutorials();
-        downloadEclipseTutorials();
+        FindAndroidTutorials.parseLinksFromWebsite();
+
+        // community
+        FindRayTutorials.downloadTutorial();
+        FindVogellaTutorials.downloadTutorial();
+
+        // TODO
+        // win official msdn....
+        // win http://www.kirupa.com/windowsphone/
     }
 
     public static void downloadAppleTutorials() throws IOException
@@ -29,19 +36,4 @@ public class Startup
         FindAppleTutorials.removeRevisionHistory();
     }
 
-    public static void downloadIOSDevGermanyTutorials() throws IOException
-    {
-        FindIosDevGTutorial.parseLinksFromWebsite();
-    }
-
-    public static void downloadAndroidDeveloperTutorials() throws IOException
-    {
-        FindAndroidTutorials.parseLinksFromWebsite();
-    }
-
-    public static void downloadEclipseTutorials() throws IOException
-    {
-        FindEclipseTutorials.parseLinksFromWebsite();
-        FindEclipseTutorials.removeEmptyIMGFolder();
-    }
 }

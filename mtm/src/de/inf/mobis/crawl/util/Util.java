@@ -23,6 +23,12 @@ import org.jsoup.select.Elements;
 public class Util
 {
 
+    
+    public static String normalizeFolderName(String name)
+    {
+        return name.replaceAll("[^^a-zA-Z0-9\\._\\- ]", "");
+    }
+    
     public static String getName(Document d)
     {
         String name = d.location();

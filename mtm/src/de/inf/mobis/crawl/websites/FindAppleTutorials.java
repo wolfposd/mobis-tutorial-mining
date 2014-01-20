@@ -29,7 +29,7 @@ public class FindAppleTutorials
     public static final int OLDSTYLE_NEXTBUTTON = 2;
     public static final int OLDSTYLE_LINKCOLLECTION = 3;
 
-    static final String DOWNLOADPATH = "./download/apple/";
+    static final String DOWNLOADPATH = "./download/apple-official/";
 
     public static void parseTutorialLinksFromSavedWebsite() throws IOException
     {
@@ -97,7 +97,7 @@ public class FindAppleTutorials
             Document doc = Jsoup.connect(tutorialWebsite).get();
             int style = findStyle(doc);
 
-            String folderpath = DOWNLOADPATH + doc.title().replaceAll("[^a-zA-Z0-9 ]*", "") + "/";
+            String folderpath = DOWNLOADPATH + doc.title().replaceAll("[^^a-zA-Z0-9\\._\\- ]*", "") + "/";
 
             new File(folderpath).mkdirs();
 
@@ -260,23 +260,27 @@ public class FindAppleTutorials
                 {
                     public boolean accept(File pathname)
                     {
-                        return pathname.getName().contains(".html");
+                        return pathname.getName().contains("RevisionHistory.html");
                     }
                 });
 
-                if (files.length > 1)
+                if (files.length > 0)
                 {
-                    try
-                    {
-                        Document parse = Jsoup.parse(files[files.length - 1], "UTF-8");
 
-                        if (parse.html().contains("<h1 id=\"pageTitle\">Document Revision History</h1>"))
-                        {
-                            files[files.length - 1].delete();
-                        }
-                    }
-                    catch (IOException e)
+                    for (File f : files)
                     {
+                        try
+                        {
+                            Document parse = Jsoup.parse(f, "UTF-8");
+
+                            if (parse.html().contains("<h1 id=\"pageTitle\">Document Revision History</h1>"))
+                            {
+                                files[files.length - 1].delete();
+                            }
+                        }
+                        catch (IOException e)
+                        {
+                        }
                     }
                 }
 
