@@ -2,6 +2,7 @@ package de.inf.mobis.crawl;
 
 import java.io.IOException;
 
+import de.inf.mobis.crawl.analyze.AnalyzeImageCount;
 import de.inf.mobis.crawl.analyze.AnalyzeTextCodeRatio;
 import de.inf.mobis.crawl.analyze.DynamicAnalyzer;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
@@ -21,6 +22,8 @@ public class Startup
     public static void main(String[] args) throws IOException
     {
         DynamicAnalyzer.analyze(new AnalyzeTextCodeRatio());
+
+        DynamicAnalyzer.analyze(new AnalyzeImageCount());
     }
 
     public static void downloadTutorials() throws IOException

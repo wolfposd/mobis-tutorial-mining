@@ -17,14 +17,14 @@ public class DynamicAnalyzer
 
     public static final String ANALYSISPATH = "./analysis/";
 
-    private AbstractAnalyzer _analyzer;
+    private IAnalyze _analyzer;
 
-    public static void analyze(AbstractAnalyzer analyzer)
+    public static void analyze(IAnalyze analyzer)
     {
         new DynamicAnalyzer(analyzer);
     }
 
-    public DynamicAnalyzer(AbstractAnalyzer analyzer)
+    public DynamicAnalyzer(IAnalyze analyzer)
     {
         _analyzer = analyzer;
 

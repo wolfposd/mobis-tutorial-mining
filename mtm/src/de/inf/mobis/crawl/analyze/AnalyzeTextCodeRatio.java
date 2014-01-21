@@ -32,9 +32,9 @@ public class AnalyzeTextCodeRatio extends AbstractAnalyzer
     public void startingTutorialFolder(File tutorialFolder, int index)
     {
         _currentTutorialIndex = index;
-        
+
         _writer.initFileWriter(new File(DynamicAnalyzer.ANALYSISPATH + tutorialFolder.getName() + ".csv"));
-        
+
         _writer.write(String.format("%s, %s, %s\n", tutorialFolder.getName(), "Text", "Code"));
     }
 
@@ -42,11 +42,6 @@ public class AnalyzeTextCodeRatio extends AbstractAnalyzer
     {
         _currentcodelength = BigInteger.valueOf(0);
         _currenttextlength = BigInteger.valueOf(0);
-    }
-
-    public void startingHTMLFile(File htmlFile)
-    {
-        // NICHTS
     }
 
     public void parsedHTMLFileToDocument(Document document)
@@ -58,11 +53,6 @@ public class AnalyzeTextCodeRatio extends AbstractAnalyzer
             _currentcodelength = _currentcodelength.add(BigInteger.valueOf(codeblock.text().length()));
         }
         _currenttextlength = _currenttextlength.add(BigInteger.valueOf(document.text().length()));
-    }
-
-    public void endingHTMLFile(File htmlFile)
-    {
-        // NICHTS
     }
 
     public void endingSubFolder(File subfolder)

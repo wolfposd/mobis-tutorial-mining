@@ -52,6 +52,7 @@ public class EasyFileWriter
         }
         catch (IOException e)
         {
+            System.err.println("Error creating FileWriter");
         }
 
     }
@@ -67,6 +68,7 @@ public class EasyFileWriter
         }
         catch (IOException e)
         {
+            System.err.println("Error closing FileWriter");
         }
         _writer = null;
     }
@@ -84,10 +86,12 @@ public class EasyFileWriter
             if (_writer != null)
             {
                 _writer.write(s);
+                System.out.print(s);
             }
         }
         catch (IOException e)
         {
+            System.err.println("Error writing FileWriter");
         }
     }
 
