@@ -2,6 +2,7 @@ package de.inf.mobis.crawl.websites;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 import org.jsoup.HttpStatusException;
@@ -27,6 +28,10 @@ public abstract class EasyDownload
     protected String _cssQuery = "";
     private List<String> _ignoreImages;
 
+    protected HashSet<String> _ignorePages = new HashSet<String>();
+    protected String _regex = ".*";
+    
+    
     public EasyDownload(String website, String path, String content, String cssquery, String contentDownload,
             List<String> ignoreImages)
     {
@@ -51,8 +56,18 @@ public abstract class EasyDownload
 
         for (int i = 0; i < select.size(); i++)
         {
-            System.out.println(String.format("Downloading %3d / %3d", i + 1, select.size()));
-            downloadLink(select.get(i).attr("abs:href"));
+            Element e = select.get(i);
+            String attr = e.attr("abs:href");
+
+            if (!_ignorePages.contains(attr) && attr.matches(_regex))
+            {
+                System.out.println(String.format("Downloading %3d / %3d", i + 1, select.size()));
+                downloadLink(attr);
+            }
+            else
+            {
+                System.out.println(String.format("Skipping %3d / %3d", i + 1, select.size()));
+            }
         }
     }
 
@@ -65,6 +80,7 @@ public abstract class EasyDownload
             String folder = Util.normalizeFolderName(doc.title());
             folder = folderReplace(folder);
 
+            System.out.println(url);
             Element e = doc.select(_contentDownload).get(0);
 
             new File(_path + folder).mkdirs();

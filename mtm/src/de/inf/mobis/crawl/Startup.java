@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
 import de.inf.mobis.crawl.websites.FindAppleTutorials;
+import de.inf.mobis.crawl.websites.FindKirupaTutorials;
 import de.inf.mobis.crawl.websites.FindRayTutorials;
 import de.inf.mobis.crawl.websites.FindVogellaTutorials;
+import de.inf.mobis.crawl.websites.FindWindowsTutorials;
 
 /**
  * 
@@ -16,24 +18,22 @@ public class Startup
 {
     public static void main(String[] args) throws IOException
     {
-        // official
-        downloadAppleTutorials();
-        FindAndroidTutorials.parseLinksFromWebsite();
 
-        // community
-        FindRayTutorials.downloadTutorial();
-        FindVogellaTutorials.downloadTutorial();
-
-        // TODO
-        // win official msdn....
-        // win http://www.kirupa.com/windowsphone/
     }
 
-    public static void downloadAppleTutorials() throws IOException
+    public static void downloadTutorials() throws IOException
     {
         FindAppleTutorials.parseTutorialLinksFromSavedWebsite();
         FindAppleTutorials.parseLinksFromFile();
         FindAppleTutorials.removeRevisionHistory();
+
+        FindAndroidTutorials.parseLinksFromWebsite();
+        FindWindowsTutorials.parseLinksFromWebsite();
+
+        // community
+        FindRayTutorials.downloadTutorial();
+        FindVogellaTutorials.downloadTutorial();
+        FindKirupaTutorials.downloadTutorial();
     }
 
 }
