@@ -31,6 +31,13 @@ public class FindAppleTutorials
 
     static final String DOWNLOADPATH = "./download/apple-official/";
 
+    public static void parseLinksFromWebsite() throws IOException
+    {
+        parseTutorialLinksFromSavedWebsite();
+        parseLinksFromFile();
+        removeRevisionHistory();
+    }
+
     public static void parseTutorialLinksFromSavedWebsite() throws IOException
     {
         Document document = Jsoup.parse(new File("./resource/iOS Developer Library.html"), "UTF-8");

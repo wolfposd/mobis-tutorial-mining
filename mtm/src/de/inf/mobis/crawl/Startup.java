@@ -2,7 +2,8 @@ package de.inf.mobis.crawl;
 
 import java.io.IOException;
 
-import de.inf.mobis.crawl.analyze.Analyze;
+import de.inf.mobis.crawl.analyze.AnalyzeTextCodeRatio;
+import de.inf.mobis.crawl.analyze.DynamicAnalyzer;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
 import de.inf.mobis.crawl.websites.FindAppleTutorials;
 import de.inf.mobis.crawl.websites.FindKirupaTutorials;
@@ -19,15 +20,14 @@ public class Startup
 {
     public static void main(String[] args) throws IOException
     {
-        Analyze.analyzeForCode();
+        DynamicAnalyzer.analyze(new AnalyzeTextCodeRatio());
     }
 
     public static void downloadTutorials() throws IOException
     {
-        FindAppleTutorials.parseTutorialLinksFromSavedWebsite();
-        FindAppleTutorials.parseLinksFromFile();
-        FindAppleTutorials.removeRevisionHistory();
 
+        // official
+        FindAppleTutorials.parseLinksFromWebsite();
         FindAndroidTutorials.parseLinksFromWebsite();
         FindWindowsTutorials.parseLinksFromWebsite();
 
