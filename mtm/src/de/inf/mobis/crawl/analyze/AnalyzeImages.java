@@ -138,6 +138,11 @@ public class AnalyzeImages extends AbstractAnalyzer
                         skipped++;
                         nextImage();
                     }
+                    else if (e.getKeyChar() == '5')
+                    {
+                        curIndex = list.get(currentfileIndex).size() - 1;
+                        nextImage();
+                    }
                     else
                     {
                         System.out.println("WRONG KEY >" + e.getKeyChar() + "<");
@@ -166,9 +171,13 @@ public class AnalyzeImages extends AbstractAnalyzer
                 System.out.println(text);
 
                 curIndex = 0;
-                if (currentfileIndex < list.size())
+                if (currentfileIndex < list.size() - 1)
                 {
                     currentfileIndex++;
+                }
+                else
+                {
+                    System.exit(0);
                 }
 
                 imagesNoMark = 0;
@@ -181,7 +190,8 @@ public class AnalyzeImages extends AbstractAnalyzer
                 curIndex++;
             }
 
-            setTitle((curIndex + 1) + " / " + list.get(currentfileIndex).size());
+            setTitle(DynamicAnalyzer.FOLDERS[currentfileIndex] + " " + (curIndex + 1) + " / "
+                    + list.get(currentfileIndex).size());
             setImage(new ImageIcon(list.get(currentfileIndex).get(curIndex).getAbsolutePath()));
         }
 
