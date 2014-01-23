@@ -31,6 +31,9 @@ public class AnalyzeImageCount extends AbstractAnalyzer
     @Override
     public void startingTutorialFolder(File tutorialFolder, int index)
     {
+        _imageCount = 0;
+        _smallImageCount = 0;
+        _folderCount = 0;
         _writer.initFileWriter(CSVFILE, true);
     }
 
@@ -38,16 +41,13 @@ public class AnalyzeImageCount extends AbstractAnalyzer
     public void startingSubFolder(File subfolder)
     {
         _folderCount++;
-
         File imageFolder = new File(subfolder, "img");
         if (imageFolder.exists())
         {
-
             if (imageFolder.isDirectory())
             {
                 for (File image : imageFolder.listFiles())
                 {
-
                     try
                     {
                         ImageIcon icon = new ImageIcon(image.getAbsolutePath());

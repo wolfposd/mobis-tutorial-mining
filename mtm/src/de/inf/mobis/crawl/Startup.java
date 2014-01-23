@@ -1,8 +1,10 @@
 package de.inf.mobis.crawl;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import de.inf.mobis.crawl.analyze.AnalyzeImageCount;
+import de.inf.mobis.crawl.analyze.AnalyzeImages;
 import de.inf.mobis.crawl.analyze.AnalyzeTextCodeRatio;
 import de.inf.mobis.crawl.analyze.DynamicAnalyzer;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
@@ -19,11 +21,15 @@ import de.inf.mobis.crawl.websites.FindWindowsTutorials;
  */
 public class Startup
 {
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException
     {
         DynamicAnalyzer.analyze(new AnalyzeTextCodeRatio());
 
         DynamicAnalyzer.analyze(new AnalyzeImageCount());
+
+        AnalyzeImages aa = new AnalyzeImages();
+        DynamicAnalyzer.analyze(aa);
+        aa.startImages();
     }
 
     public static void downloadTutorials() throws IOException
