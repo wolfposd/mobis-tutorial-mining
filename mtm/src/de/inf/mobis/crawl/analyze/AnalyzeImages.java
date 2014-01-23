@@ -149,6 +149,7 @@ public class AnalyzeImages extends AbstractAnalyzer
                         System.out.println("w für mit Highlight");
                         System.out.println("o  für ohne Highlight");
                         System.out.println("Leertaste zum Überspringen");
+                        System.out.println("5 für nächstes Tutorial");
                     }
                 }
             };
