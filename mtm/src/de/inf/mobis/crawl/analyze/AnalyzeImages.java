@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -43,6 +44,7 @@ public class AnalyzeImages extends AbstractAnalyzer
         currentfolder = index;
     }
 
+    
     @Override
     public void startingSubFolder(File subfolder)
     {
@@ -69,6 +71,7 @@ public class AnalyzeImages extends AbstractAnalyzer
         }
     }
 
+    
     @Override
     public void endingTutorialFolder(File tutorialFolder)
     {
@@ -84,7 +87,7 @@ public class AnalyzeImages extends AbstractAnalyzer
     {
 
         _writer.initFileWriter(CSVFILE);
-        _writer.writeln("Tutorial, normal, highlighted, skipped");
+        _writer.writeln("Tutorial, normal, highlighted, skipped, total");
         _writer.closeFileWriter();
 
         _window = new ClickWindow();
@@ -109,6 +112,8 @@ public class AnalyzeImages extends AbstractAnalyzer
         public int currentfileIndex = 0;
 
         public int curIndex = -1;
+        
+        public String curParent = "";
 
         public ClickWindow()
         {
@@ -146,10 +151,10 @@ public class AnalyzeImages extends AbstractAnalyzer
                     else
                     {
                         System.out.println("WRONG KEY >" + e.getKeyChar() + "<");
-                        System.out.println("w für mit Highlight");
-                        System.out.println("o  für ohne Highlight");
-                        System.out.println("Leertaste zum Überspringen");
-                        System.out.println("5 für nächstes Tutorial");
+                        System.out.println("w fuer mit Highlight");
+                        System.out.println("o  fuer ohne Highlight");
+                        System.out.println("Leertaste zum �berspringen");
+                        System.out.println("5 fuer naechstes Tutorial");
                     }
                 }
             };
@@ -161,7 +166,6 @@ public class AnalyzeImages extends AbstractAnalyzer
         {
             if (curIndex == list.get(currentfileIndex).size() - 1)
             {
-
                 _writer.initFileWriter(CSVFILE, true);
 
                 String text = DynamicAnalyzer.FOLDERS[currentfileIndex] + ", " + imagesNoMark + ", " + imagesWithMark
@@ -188,11 +192,32 @@ public class AnalyzeImages extends AbstractAnalyzer
             }
             else
             {
+            	
                 curIndex++;
+                if (list.get(currentfileIndex).get(curIndex).getParent().toString().equals(curParent)
+            			&& curParent.length() > 0){
+                        	
+            	} else 
+            	{
+            		_writer.initFileWriter(CSVFILE, true);
+
+                    String text = DynamicAnalyzer.FOLDERS[currentfileIndex] + 
+                    		list.get(currentfileIndex).get(curIndex).getParent().toString() + ", " + imagesNoMark + ", " + imagesWithMark
+                            + ", " + skipped + ", " + (imagesNoMark+imagesWithMark+skipped);
+
+                    _writer.writeln(text);
+                    _writer.closeFileWriter();
+                    imagesNoMark = 0;
+                    imagesWithMark = 0;
+                    skipped = 0;
+
+            	}
+                curParent = list.get(currentfileIndex).get(curIndex).getParent().toString();
             }
 
             setTitle(DynamicAnalyzer.FOLDERS[currentfileIndex] + " " + (curIndex + 1) + " / "
                     + list.get(currentfileIndex).size());
+            
             setImage(new ImageIcon(list.get(currentfileIndex).get(curIndex).getAbsolutePath()));
         }
 

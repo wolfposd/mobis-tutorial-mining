@@ -3,6 +3,7 @@ package de.inf.mobis.crawl;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import de.inf.mobis.crawl.analyze.AnalyzeImageCount;
 import de.inf.mobis.crawl.analyze.AnalyzeImages;
 import de.inf.mobis.crawl.analyze.DynamicAnalyzer;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;

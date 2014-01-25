@@ -8,6 +8,8 @@ public class AnalyzeImageCount extends AbstractAnalyzer
 {
 
     private int _folderCount = 0;
+    
+    private int _tutorialCount = 0;
 
     private int _imageCount = 0;
 
@@ -34,6 +36,7 @@ public class AnalyzeImageCount extends AbstractAnalyzer
         _imageCount = 0;
         _smallImageCount = 0;
         _folderCount = 0;
+        _tutorialCount = 0;
         _writer.initFileWriter(CSVFILE, true);
     }
 
@@ -46,10 +49,14 @@ public class AnalyzeImageCount extends AbstractAnalyzer
         {
             if (imageFolder.isDirectory())
             {
+            	_tutorialCount++;
+            	
                 for (File image : imageFolder.listFiles())
                 {
                     try
                     {
+                    	String test = image.getAbsolutePath();
+                    	System.out.println(test);
                         ImageIcon icon = new ImageIcon(image.getAbsolutePath());
 
                         if (icon.getIconWidth() > 10 && icon.getIconHeight() > 10)
@@ -74,8 +81,8 @@ public class AnalyzeImageCount extends AbstractAnalyzer
     @Override
     public void endingTutorialFolder(File tutorialFolder)
     {
-        _writer.writeln(String.format("%s, %s, %s, %s", tutorialFolder.getName(), _folderCount, _imageCount,
-                _smallImageCount));
+        _writer.writeln(String.format("%s, %s, %s, %s, %s", tutorialFolder.getName(), _folderCount, _imageCount,
+                _smallImageCount, _tutorialCount));
 
         _writer.closeFileWriter();
     }
