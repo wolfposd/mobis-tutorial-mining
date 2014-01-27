@@ -26,7 +26,7 @@ public class AnalyzeImageCount extends AbstractAnalyzer
             CSVFILE.delete();
         }
         _writer.initFileWriter(CSVFILE);
-        _writer.writeln("Tutorial, Folders, Images, SmallImages");
+        _writer.writeln("Tutorial, Folders, Images, SmallImages, Tutorials w. Images");
         _writer.closeFileWriter();
     }
 
@@ -56,7 +56,6 @@ public class AnalyzeImageCount extends AbstractAnalyzer
                     try
                     {
                     	String test = image.getAbsolutePath();
-                    	System.out.println(test);
                         ImageIcon icon = new ImageIcon(image.getAbsolutePath());
 
                         if (icon.getIconWidth() > 10 && icon.getIconHeight() > 10)
