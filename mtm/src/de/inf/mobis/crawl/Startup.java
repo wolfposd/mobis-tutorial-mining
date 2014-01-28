@@ -3,8 +3,7 @@ package de.inf.mobis.crawl;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import de.inf.mobis.crawl.analyze.AnalyzeImageCount;
-import de.inf.mobis.crawl.analyze.AnalyzeImages;
+import de.inf.mobis.crawl.analyze.AnalyzeLinks;
 import de.inf.mobis.crawl.analyze.DynamicAnalyzer;
 import de.inf.mobis.crawl.websites.FindAndroidTutorials;
 import de.inf.mobis.crawl.websites.FindAppleTutorials;
@@ -26,9 +25,11 @@ public class Startup
         //
         // DynamicAnalyzer.analyze(new AnalyzeImageCount());
 
-        AnalyzeImages aa = new AnalyzeImages();
-        DynamicAnalyzer.analyze(aa);
-        aa.startImages();
+        // AnalyzeImages aa = new AnalyzeImages();
+        // DynamicAnalyzer.analyze(aa);
+        // aa.startImages();
+
+        DynamicAnalyzer.analyze(new AnalyzeLinks());
     }
 
     public static void downloadTutorials() throws IOException

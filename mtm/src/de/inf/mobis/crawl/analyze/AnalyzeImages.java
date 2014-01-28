@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -44,7 +43,6 @@ public class AnalyzeImages extends AbstractAnalyzer
         currentfolder = index;
     }
 
-    
     @Override
     public void startingSubFolder(File subfolder)
     {
@@ -60,9 +58,9 @@ public class AnalyzeImages extends AbstractAnalyzer
 
                     try
                     {
-                    	//prevent loading of files that start with .
-                    	if (!image.getName().startsWith("."))
-                    		list.get(currentfolder).add(image);
+                        // prevent loading of files that start with .
+                        if (!image.getName().startsWith("."))
+                            list.get(currentfolder).add(image);
                     }
                     catch (Throwable e)
                     {
@@ -73,7 +71,6 @@ public class AnalyzeImages extends AbstractAnalyzer
         }
     }
 
-    
     @Override
     public void endingTutorialFolder(File tutorialFolder)
     {
@@ -106,25 +103,25 @@ public class AnalyzeImages extends AbstractAnalyzer
         public JLabel label = new JLabel();
 
         public int imagesNoMark = 0;
-        
+
         public int totalNoMark = 0;
-        
+
         public int totalWithMark = 0;
 
         public int imagesWithMark = 0;
-         
+
         public int diagrams = 0;
-        
+
         public int totalDiagrams = 0;
 
         public int skipped = 0;
-        
+
         public int totalSkipped = 0;
 
         public int currentfileIndex = 0;
 
         public int curIndex = -1;
-        
+
         public String curParent = "";
 
         public ClickWindow()
@@ -171,7 +168,7 @@ public class AnalyzeImages extends AbstractAnalyzer
                         System.out.println("w fuer mit Highlight");
                         System.out.println("o  fuer ohne Highlight");
                         System.out.println("d  fuer Diagramme");
-                        System.out.println("Leertaste zum Ÿberspringen");
+                        System.out.println("Leertaste zum ï¿½berspringen");
                         System.out.println("5 fuer naechstes Tutorial");
                     }
                 }
@@ -191,7 +188,7 @@ public class AnalyzeImages extends AbstractAnalyzer
 
                 _writer.writeln(text);
                 _writer.closeFileWriter();
-             
+
                 curIndex = 0;
                 if (currentfileIndex < list.size() - 1)
                 {
@@ -201,12 +198,12 @@ public class AnalyzeImages extends AbstractAnalyzer
                 {
                     System.exit(0);
                 }
- 
+
                 totalNoMark = 0;
                 totalWithMark = 0;
                 totalDiagrams = 0;
                 totalSkipped = 0;
-                
+
                 imagesNoMark = 0;
                 imagesWithMark = 0;
                 diagrams = 0;
@@ -218,29 +215,29 @@ public class AnalyzeImages extends AbstractAnalyzer
                 curIndex++;
                 if (list.get(currentfileIndex).get(curIndex).getParent().toString().equals(curParent))
                 {
-                	
-            	} 
+
+                }
                 else if (curParent.length() != 0)
-            	{
-            		_writer.initFileWriter(CSVFILE, true);
-                    String text = DynamicAnalyzer.FOLDERS[currentfileIndex] + 
-                    		curParent + ", " + imagesNoMark + ", " + imagesWithMark
-                            + ", " + diagrams + ", "  + skipped + ", " + (imagesNoMark+imagesWithMark+skipped+diagrams);
-                    
+                {
+                    _writer.initFileWriter(CSVFILE, true);
+                    String text = DynamicAnalyzer.FOLDERS[currentfileIndex] + curParent + ", " + imagesNoMark + ", "
+                            + imagesWithMark + ", " + diagrams + ", " + skipped + ", "
+                            + (imagesNoMark + imagesWithMark + skipped + diagrams);
+
                     _writer.writeln(text);
                     _writer.closeFileWriter();
-                    
+
                     totalNoMark += imagesNoMark;
                     totalWithMark += imagesWithMark;
                     totalDiagrams += diagrams;
                     totalSkipped += skipped;
-                    
+
                     imagesNoMark = 0;
                     imagesWithMark = 0;
                     diagrams = 0;
                     skipped = 0;
 
-            	}
+                }
                 curParent = list.get(currentfileIndex).get(curIndex).getParent().toString();
             }
 
