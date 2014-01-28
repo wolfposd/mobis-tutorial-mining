@@ -19,7 +19,7 @@ public class AnalyzeTextCodeRatio extends AbstractAnalyzer
     /**
      * Code-Blöcke in selber Reihenfolge wie {@link DynamicAnalyzer#FOLDERS}
      */
-    private final String[] _codeBlocks = { "pre[class=programlisting]", "pre", "td[class=code]",
+    public static final String[] CODEBLOCKS = { "pre[class=programlisting]", "pre", "td[class=code]",
             "div[class=codesample clear]", "div[class=codeSnippetContainerCode]", "dl[class=kASHglobal]" };
 
     private final EasyFileWriter _writer = new EasyFileWriter();
@@ -46,7 +46,7 @@ public class AnalyzeTextCodeRatio extends AbstractAnalyzer
 
     public void parsedHTMLFileToDocument(Document document)
     {
-        Elements codeBlocks = document.select(_codeBlocks[_currentTutorialIndex]);
+        Elements codeBlocks = document.select(CODEBLOCKS[_currentTutorialIndex]);
 
         for (Element codeblock : codeBlocks)
         {

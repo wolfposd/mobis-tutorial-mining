@@ -23,12 +23,11 @@ import org.jsoup.select.Elements;
 public class Util
 {
 
-    
     public static String normalizeFolderName(String name)
     {
         return name.replaceAll("[^^a-zA-Z0-9\\._\\- ]", "");
     }
-    
+
     public static String getName(Document d)
     {
         String name = d.location();
@@ -91,5 +90,20 @@ public class Util
                 }
             }
         }
+    }
+
+    public static int occurencesOf(String original, String match)
+    {
+        int result = 0;
+
+        int index = 0;
+
+        while ((index = original.indexOf(match, index)) != -1)
+        {
+            result++;
+            index += match.length();
+        }
+
+        return result;
     }
 }
