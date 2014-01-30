@@ -40,36 +40,44 @@ public class DynamicAnalyzer
 
     private void analyzeForCode(File folder, int index)
     {
-        _analyzer.startingTutorialFolder(folder, index);
+    	
+    	_analyzer.startingTutorialFolder(folder, index);
 
-        for (File subfolder : folder.listFiles(new FolderFilter()))
-        {
-            _analyzer.startingSubFolder(subfolder);
+    	for (File subfolder : folder.listFiles(new FolderFilter()))
+    	{
 
-            for (File htmlFile : subfolder.listFiles(new NotFolderFilter()))
-            {
-                _analyzer.startingHTMLFile(htmlFile);
-                try
-                {
-                    Document d = Jsoup.parse(htmlFile, "UTF-8");
-                    _analyzer.parsedHTMLFileToDocument(d);
-                }
-                catch (IOException e)
-                {
-                    _analyzer.parsedHTMLFileToDocument(null);
-                }
-                _analyzer.endingHTMLFile(htmlFile);
-            }
-            _analyzer.endingSubFolder(subfolder);
-        }
-        _analyzer.endingTutorialFolder(folder);
+    		_analyzer.startingSubFolder(subfolder);
+
+    		for (File htmlFile : subfolder.listFiles(new NotFolderFilter()))
+    		{
+    			_analyzer.startingHTMLFile(htmlFile);
+    			try
+    			{
+    				Document d = Jsoup.parse(htmlFile, "UTF-8");
+    				_analyzer.parsedHTMLFileToDocument(d);
+    			}
+    			catch (IOException e)
+    			{
+    				_analyzer.parsedHTMLFileToDocument(null);
+    			}
+    			_analyzer.endingHTMLFile(htmlFile);
+    		}
+    		_analyzer.endingSubFolder(subfolder);
+    	}
+
+    	_analyzer.endingTutorialFolder(folder);
+
     }
 
     public static class FolderFilter implements FileFilter
     {
         public boolean accept(File pathname)
         {
-            return pathname.isDirectory();
+            //return pathname.isDirectory() && !pathname.getName().contains("Reference");
+            return pathname.isDirectory() && !pathname.getName().matches(".*Reference.*")
+            		&& !pathname.getName().matches(".*API.*Differences.*") 
+            		&& !pathname.getName().matches(".*Additions.*")
+            		&& !pathname.getName().matches(".*iOS.*Release.*Notes.*");
         }
     }
 
@@ -77,7 +85,7 @@ public class DynamicAnalyzer
     {
         public boolean accept(File pathname)
         {
-            return !pathname.isDirectory() && !pathname.getName().equals(".DS_Store");
+        	return !pathname.isDirectory() && !pathname.getName().equals(".DS_Store");
         }
     }
 
