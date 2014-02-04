@@ -77,7 +77,8 @@ public class DynamicAnalyzer
             return pathname.isDirectory() && !pathname.getName().matches(".*Reference.*")
             		&& !pathname.getName().matches(".*API.*Differences.*") 
             		&& !pathname.getName().matches(".*Additions.*")
-            		&& !pathname.getName().matches(".*iOS.*Release.*Notes.*");
+            		&& !pathname.getName().matches(".*Release.*Note.*")
+            		&& !pathname.getName().matches(".*iOS.*Release.*Note.*");
         }
     }
 
