@@ -9,7 +9,7 @@ import java.util.List;
 public class ListUtil
 {
 
-    static <K> void filter(List<K> liste, Filter f)
+    public static <K> void filter(List<K> liste, Filter f)
     {
         LinkedList<K> removelater = new LinkedList<K>();
         for (K s : liste)

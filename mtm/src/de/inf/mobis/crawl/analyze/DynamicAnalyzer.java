@@ -35,7 +35,7 @@ public class DynamicAnalyzer
 
             analyzeForCode(folder, i);
         }
-
+        System.out.println("Done analyzing");
     }
 
     private void analyzeForCode(File folder, int index)
