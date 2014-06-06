@@ -2,6 +2,7 @@ package de.inf.mobis.crawl.websites;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import de.inf.mobis.crawl.util.Util;
 public abstract class EasyDownload
 {
 
+    private static final int TIMEOUT = 30000;
     protected String _path = "";
     protected String _content = "";
     protected String _contentDownload = "";
@@ -30,8 +32,23 @@ public abstract class EasyDownload
 
     protected HashSet<String> _ignorePages = new HashSet<String>();
     protected String _regex = ".*";
-    
-    
+
+    /**
+     * Constructor
+     * 
+     * @param website
+     *            Website-URL
+     * @param path
+     *            Path to save files
+     * @param content
+     *            main content to look for links
+     * @param cssquery
+     *            query to select links
+     * @param contentDownload
+     *            main content of tutorial
+     * @param ignoreImages
+     *            images to ignore
+     */
     public EasyDownload(String website, String path, String content, String cssquery, String contentDownload,
             List<String> ignoreImages)
     {
@@ -48,7 +65,7 @@ public abstract class EasyDownload
     public void parseLinksFromWebsite() throws IOException
     {
 
-        Document doc = Jsoup.connect(_website).get();
+        Document doc = Jsoup.connect(_website).timeout(TIMEOUT).get();
 
         Element element = doc.select(_content).get(0);
 
@@ -75,21 +92,35 @@ public abstract class EasyDownload
     {
         try
         {
-            Document doc = Jsoup.connect(url).get();
+            Document doc = Jsoup.connect(url).timeout(TIMEOUT).get();
 
             String folder = Util.normalizeFolderName(doc.title());
             folder = folderReplace(folder);
 
             System.out.println(url);
-            Element e = doc.select(_contentDownload).get(0);
 
-            new File(_path + folder).mkdirs();
-            Util.saveDocumentToFile(e, _path + folder + "/index.html");
-            Util.saveImageFromDocumentToFolder(e, _path + folder, _ignoreImages);
+            Elements preSelect = doc.select(_contentDownload);
+
+            if (preSelect.size() > 0)
+            {
+                Element e = preSelect.get(0);
+
+                new File(_path + folder).mkdirs();
+                Util.saveDocumentToFile(e, _path + folder + "/index.html");
+                Util.saveImageFromDocumentToFolder(e, _path + folder, _ignoreImages);
+            }
+            else
+            {
+                System.err.println("No content " + url);
+            }
         }
         catch (HttpStatusException e)
         {
             System.err.println("ERROR with " + url + " code:" + e.getStatusCode());
+        }
+        catch (SocketTimeoutException e)
+        {
+            System.err.println("TIMEOUT with " + url);
         }
         catch (IOException e)
         {
